@@ -70,11 +70,6 @@
             :key="article.slug"
           >
             <div class="article-meta">
-              <!-- <a href="profile.html"
-                ><img
-                  src="https://user-gold-cdn.xitu.io/2019/5/28/16afe0a2e8276190?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1"
-              /></a> -->
-
               <nuxt-link
                 :to="{
                   name: 'profile',
@@ -116,6 +111,9 @@
               <h1>{{ article.title }}</h1>
               <p>{{ article.description }}</p>
               <span>Read more...</span>
+              <ul class="tag-list">
+                <li class="tag-default tag-pill tag-outline" v-for="tag in article.tagList" :key="tag">{{tag}}</li>
+              </ul>
             </nuxt-link>
           </div>
 

@@ -71,7 +71,7 @@ export default {
             tagList: this.tagList
           }
 
-          const { data } = await createArticle(article)
+          const { data } = await createArticle({article})
           this.$router.push(`/article/${data.article.slug}`);
 
         } catch (error) {
