@@ -4,16 +4,25 @@
     <div class="row">
 
       <div class="col-md-10 offset-md-1 col-xs-12">
+
+        <ul class="error-messages">
+            <template v-for="(messages, field) in errors">
+              <li v-for="(message, index) in messages" :key="field + index">
+                {{ field }} {{ message }}
+              </li>
+            </template>
+        </ul>
+
         <form>
           <fieldset>
             <fieldset class="form-group">
-                <input type="text" class="form-control form-control-lg" placeholder="Article Title" v-model="title">
+                <input type="text" class="form-control form-control-lg" placeholder="Article Title" required v-model="title">
             </fieldset>
             <fieldset class="form-group">
-                <input type="text" class="form-control" placeholder="What's this article about?" v-model="description">
+                <input type="text" class="form-control" placeholder="What's this article about?" required v-model="description">
             </fieldset>
             <fieldset class="form-group">
-                <textarea class="form-control" rows="8" placeholder="Write your article (in markdown)" v-model="body"></textarea>
+                <textarea class="form-control" rows="8" placeholder="Write your article (in markdown)" required v-model="body"></textarea>
             </fieldset>
             <fieldset class="form-group">
                 <input type="text" class="form-control" placeholder="Enter tags" v-model="tag" @keyup.enter="addTag">
@@ -48,18 +57,26 @@ export default {
         description: '',
         body: '',
         tag: '',
-        tagList: []
+        tagList: [],
+        errors: {}
       }
     },
     methods: {
       async onSubmit () {
-        const { data } = await createArticle({
-          title: this.title,
-          description: this.description,
-          body: this.body,
-          tagList: this.tagList
-        })
-        this.$router.push(`/article/${data.article.slug}`);
+        try {
+          const article = {
+            title: this.title,
+            description: this.description,
+            body: this.body,
+            tagList: this.tagList
+          }
+
+          const { data } = await createArticle(article)
+          this.$router.push(`/article/${data.article.slug}`);
+
+        } catch (error) {
+          this.errors = error.response.data.errors
+        }
       },
       addTag () {
         if(!this.tagList.includes(this.tag)){

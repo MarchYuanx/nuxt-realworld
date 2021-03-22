@@ -14,7 +14,7 @@
           <template v-if="user">
             <li class="nav-item">
               <nuxt-link class="nav-link" to="/editor">
-                <i class="ion-compose"></i>&nbsp;New Post
+                <i class="ion-compose"></i>&nbsp;New Article
               </nuxt-link>
             </li>
             <li class="nav-item">
@@ -26,7 +26,7 @@
               <nuxt-link class="nav-link" to="/profile/march">
                 <img
                   class="user-pic"
-                  src="https://sf1-ttcdn-tos.pstatp.com/img/user-avatar/2b91adc8c81b1a4e9a52d77c84c6c95f~300x300.image"
+                  :src="user.image"
                   alt=""
                 />
                 {{ user.username }}

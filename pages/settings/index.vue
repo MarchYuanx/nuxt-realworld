@@ -28,6 +28,10 @@
               </button>
           </fieldset>
         </form>
+        <hr>
+        <button class="btn btn-outline-danger">
+          Or click here to logout.
+        </button>
       </div>
 
     </div>
