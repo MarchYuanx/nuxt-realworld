@@ -110,6 +110,11 @@ export default {
         const index = this.tagList.indexOf(tag)
         this.tagList.splice(index, 1)
       }
+    },
+     head() {
+      return {
+        title: `Editor — Conduit`,
+      }
     }
 }
 </script>

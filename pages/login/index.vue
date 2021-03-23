@@ -95,6 +95,11 @@ export default {
       }
     },
   },
+  head() {
+    return {
+      title: this.isLogin ? "Sign in — Conduit" : "Sign up — Conduit" 
+    }
+  }
 };
 </script>
 

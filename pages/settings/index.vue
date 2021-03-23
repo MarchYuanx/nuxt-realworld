@@ -98,6 +98,11 @@ export default {
         this.$store.commit('setUser', null)
         this.$router.push(`/login`)
       }
+    },
+    head() {
+      return {
+        title: `Settings — Conduit`,
+      }
     }
 }
 </script>
