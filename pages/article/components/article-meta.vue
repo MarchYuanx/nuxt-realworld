@@ -123,7 +123,10 @@ export default {
       }
 
       this.followDisable = false
-    } 
+    },
+    editOperate(article){
+      this.$router.push(`/editor/${article.slug}`)
+    }
   }
 };
 </script>

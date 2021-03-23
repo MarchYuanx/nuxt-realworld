@@ -76,3 +76,12 @@ export const addComment = (slug, data) => {
         data
     })
 }
+
+// 跟新文章
+export const updateArticle = (slug, data) => {
+    return request({
+        method: 'PUT',
+        url: `/api/articles/${slug}`,
+        data
+    })
+}

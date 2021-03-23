@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { createArticle } from '@/api/article'
+import { createArticle, updateArticle, getArticle } from '@/api/article'
 
 export default {
     name: 'EditorIndex',
@@ -58,7 +58,24 @@ export default {
         body: '',
         tag: '',
         tagList: [],
-        errors: {}
+        errors: {},
+        slug: ''
+      }
+    },
+    created(){
+      
+    },
+    async mounted(){
+      const slug = this.$route.params.slug
+      
+      if(slug){
+        const { data } = await getArticle(slug)
+
+        this.slug = data.article.slug
+        this.title = data.article.title
+        this.description = data.article.description
+        this.body = data.article.body
+        this.tagList = data.article.tagList
       }
     },
     methods: {
@@ -71,9 +88,14 @@ export default {
             tagList: this.tagList
           }
 
-          const { data } = await createArticle({article})
-          this.$router.push(`/article/${data.article.slug}`);
-
+          if(this.slug){
+            const { data } = await updateArticle(this.slug, {article})
+            this.$router.push(`/article/${data.article.slug}`);
+          }else{
+            const { data } = await createArticle({article})
+            this.$router.push(`/article/${data.article.slug}`);
+          }
+          
         } catch (error) {
           this.errors = error.response.data.errors
         }
