@@ -59,6 +59,15 @@ export const createArticle = data => {
     });
 }
 
+// 删除文章
+export const deleteArticle = slug => {
+    return request({
+        method: "DELETE",
+        url: `/api/articles/${slug}`,
+    });
+}
+
+
 // 发布评论
 export const addComment = (slug, data) => {
     return request({

@@ -63,6 +63,7 @@
 
 <script>
 import { getComments, addComment } from '@/api/article'
+import { mapState } from 'vuex'
 
 export default {
     name: 'ArticleComments',
@@ -77,14 +78,15 @@ export default {
             comments: [],
             commentText: '',
             commentDisable: false,
-            user: {},
         }
     },
     async mounted () {
-        this.user = this.$store.state.user
         const { data } = await getComments(this.article.slug)
        
         this.comments = data.comments
+    },
+    computed: {
+      ...mapState(['user'])
     },
     methods: {
       async addComment(){

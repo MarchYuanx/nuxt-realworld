@@ -131,7 +131,7 @@ export default {
   watchQuery: ["page", "tag", "tab"],
   async asyncData(context) {
     const { query, store } = context;
-    const limit = 5;
+    const limit = 10;
     const page = Number.parseInt(query.page || 1);
     const tag = query.tag;
     const tab = query.tab || 'global_feed';
