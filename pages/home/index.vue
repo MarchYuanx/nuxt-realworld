@@ -64,7 +64,7 @@
             </ul>
           </div>
 
-          <div
+          <!-- <div
             class="article-preview"
             v-for="article in articles"
             :key="article.slug"
@@ -115,7 +115,9 @@
                 <li class="tag-default tag-pill tag-outline" v-for="tag in article.tagList" :key="tag">{{tag}}</li>
               </ul>
             </nuxt-link>
-          </div>
+          </div> -->
+
+          <article-preview :articles="articles"/>
 
           <!-- 分页列表 -->
           <nav>
@@ -171,11 +173,13 @@
 </template>
 
 <script>
-import { getArticles, getFeedArticles, addFavorite, deleteFavorite } from "@/api/article";
+import { getArticles, getFeedArticles, } from "@/api/article";
 import { getTags } from "@/api/tag";
 import { mapState } from "vuex";
+import articlePreview from './components/article-preview.vue';
 
 export default {
+  components: { articlePreview },
   name: "HomeIndex",
   watchQuery: ["page", "tag", "tab"],
   async asyncData(context) {
@@ -184,12 +188,6 @@ export default {
     const page = Number.parseInt(query.page || 1);
     const tag = query.tag;
     const tab = query.tab || 'global_feed';
-    // const { data } = await getArticles({
-    //   limit,
-    //   offset: (page - 1) * limit,
-    // });
-
-    // const { data: tagData } = await getTags()
 
     const loadArticles = store.state.user && tab === 'your_feed'
       ? getFeedArticles
@@ -228,21 +226,21 @@ export default {
       return Math.ceil(this.articlesCount / this.limit);
     },
   },
-  methods: {
-    async onFavorite (article) {
-      article.favoriteDisabled = true
-      if(article.favorited){
-        await deleteFavorite(article.slug)
-        article.favorited = false
-        article.favoritesCount += -1
-      }else{
-        await addFavorite(article.slug)
-        article.favorited = true
-        article.favoritesCount += 1
-      }
-      article.favoriteDisabled = false
-    }
-  }
+  // methods: {
+  //   async onFavorite (article) {
+  //     article.favoriteDisabled = true
+  //     if(article.favorited){
+  //       await deleteFavorite(article.slug)
+  //       article.favorited = false
+  //       article.favoritesCount += -1
+  //     }else{
+  //       await addFavorite(article.slug)
+  //       article.favorited = true
+  //       article.favoritesCount += 1
+  //     }
+  //     article.favoriteDisabled = false
+  //   }
+  // }
 };
 </script>
 
