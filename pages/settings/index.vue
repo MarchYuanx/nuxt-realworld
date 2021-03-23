@@ -37,7 +37,7 @@
           </fieldset>
         </form>
         <hr>
-        <button class="btn btn-outline-danger">
+        <button class="btn btn-outline-danger" @click="logout">
           Or click here to logout.
         </button>
       </div>
@@ -85,14 +85,18 @@ export default {
           }
           const { data } = await updateUser({user: this.userInfo})
 
-          this.$store.commit('setUser', data.user)
           // 持久化数据 防止刷新丢失
           Cookie.set('user', data.user)
+          this.$store.commit('setUser', data.user)
           this.$router.push(`/profile/${data.user.username}`)
         } catch (error) {
           this.errors = error.response.data.errors
         }
-
+      },
+      logout () {
+        Cookie.set('user', null)
+        this.$store.commit('setUser', null)
+        this.$router.push(`/login`)
       }
     }
 }

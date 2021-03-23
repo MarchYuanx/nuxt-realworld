@@ -1,21 +1,27 @@
 <template>
   <div>
-    <form class="card comment-form">
-      <div class="card-block">
+    <form class="card comment-form" v-if="user">
+        <div class="card-block" >
         <textarea
           class="form-control"
           placeholder="Write a comment..."
           rows="3"
+          v-model="commentText"
         ></textarea>
-      </div>
-      <div class="card-footer">
-        <img
-          src="https://user-gold-cdn.xitu.io/2019/5/28/16afe0a2e8276190?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1"
-          class="comment-author-img"
-        />
-        <button class="btn btn-sm btn-primary">Post Comment</button>
-      </div>
+        </div>
+        <div class="card-footer">
+          <img
+            :src="user.image"
+            class="comment-author-img"
+          />
+          <button class="btn btn-sm btn-primary" @click="addComment()" :disabled="commentDisable">Post Comment</button>
+        </div>
     </form>
+
+    <p v-else style="display: inherit;">
+      <nuxt-link to="/login">Sign in</nuxt-link> or <nuxt-link to="register">sign up</nuxt-link> to add comments on this article.
+    </p>
+      
 
     <div class="card" v-for="comment in comments" :key="comment.id">
       <div class="card-block">
@@ -56,7 +62,7 @@
 </template>
 
 <script>
-import { getComments } from '@/api/article'
+import { getComments, addComment } from '@/api/article'
 
 export default {
     name: 'ArticleComments',
@@ -68,13 +74,33 @@ export default {
     },
     data () {
         return {
-            comments: []
+            comments: [],
+            commentText: '',
+            commentDisable: false,
+            user: {},
         }
     },
     async mounted () {
+        this.user = this.$store.state.user
         const { data } = await getComments(this.article.slug)
        
         this.comments = data.comments
+    },
+    methods: {
+      async addComment(){
+        this.commentDisable = true
+        const { slug } = this.article
+        const commentData = {
+          comment: {
+            body: this.commentText
+          }
+        } 
+        const { data } = await addComment(slug, commentData)
+
+        this.comments.unshift(data.comment)
+        this.commentText = ''
+        this.commentDisable = false
+      }
     }
 };
 </script>

@@ -58,3 +58,12 @@ export const createArticle = data => {
         data
     });
 }
+
+// 发布评论
+export const addComment = (slug, data) => {
+    return request({
+        method: "POST",
+        url: `/api/articles/${slug}/comments`,
+        data
+    })
+}

@@ -172,6 +172,18 @@ export default {
           this.profile.followDisable = false
         } 
       }
+    },
+    head() {
+      return {
+        title: this.tab === 'favorited_articles' ? `favorited by ${this.profile.username} — Conduit` : `@${this.profile.username} — Conduit`,
+        meta: [
+          {
+            hid: 'profile',
+            name: 'profile',
+            content: this.profile.bio
+          }
+        ]
+      }
     }
 
 }

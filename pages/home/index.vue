@@ -173,6 +173,11 @@ export default {
       return Math.ceil(this.articlesCount / this.limit);
     },
   },
+  head() {
+    return {
+      title: `Home — Conduit`,
+    }
+  }
 };
 </script>
 
